@@ -8,10 +8,11 @@ import {
 } from '../queries/memoQueries';
 import Spinner from '../components/Spinner';
 import { useAuth0, withAuthenticationRequired } from '@auth0/auth0-react';
-
+import { useContext } from 'react';
+import { UserContext } from '../libs/studentContext';
 const Home = () => {
   const { user, isAuthenticated, isLoading } = useAuth0();
-  console.log(user)
+  
   // TODO add useQuery(GET_STUDENT) so that we can provide the component tree
   // Maybe with useContext or just passing props
   const { loading, error, data } = useQuery(GET_STUDENT, {
@@ -21,7 +22,8 @@ if (isLoading) {
   return <Spinner />;
 }
   if (loading) return <Spinner />;
-  if (error) return <p>Something Went Wrong</p>;
+  if (error) return console.log(JSON.stringify(error)); 
+  {/* <p>Something Went Wrong</p>; */}
   const {getStudent} = data
    
   return (
@@ -34,7 +36,9 @@ if (isLoading) {
           </h3>
         </div>
         <AddMemoModal />
-        <Memos student={getStudent} />
+        <UserContext.Provider value={{ user, getStudent }}>
+          <Memos student={getStudent} />
+        </UserContext.Provider>
       </div>
     </>
   );

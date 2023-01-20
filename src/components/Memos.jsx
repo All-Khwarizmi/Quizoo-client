@@ -5,37 +5,34 @@ import {
   GET_FICHES_CLASS,
 } from '../queries/memoQueries';
 import Spinner from './Spinner';
+import { UserContext } from '../libs/studentContext';
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 
-const Memos = ({student}) => {
-  
+const Memos = (/* {student} */) => {
+   const { user, getStudent } = React.useContext(UserContext);
+ 
   const { loading, error, data } = useQuery(GET_FICHES_CLASS, {
-    variables: {class: student.class}
+    variables: {class: getStudent.class}
   });
  
   if (loading) return <Spinner />;
   if (error) return <p>Something Went Wrong</p>;
 
  const { getFichesClass } = data;
-
+// console.log(getFichesClass);
   
   return (
     <>
       {!loading && !error && (
-        <table className='table table-hover mt-3'>
-          <thead>
-            <tr>
-              <th>Fiche</th>
-              <th>Classe</th>
-              <th>ID</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody>
+        <Container fluid>
+          <Row className='row gm-1'>
             {getFichesClass.map((fiche) => (
-              <MemoRow key={fiche.id} student={student} fiche={fiche} />
+              <MemoRow key={fiche.id} student={getStudent} fiche={fiche} />
             ))}
-          </tbody>
-        </table>
+          </Row>
+        </Container>
       )}
     </>
   );

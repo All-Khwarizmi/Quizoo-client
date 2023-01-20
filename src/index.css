@@ -1,4 +1,9 @@
+
+  @import url('https://fonts.googleapis.com/css2?family=Rowdies:wght@300&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap');
+
 body {
+  color: #df3ca6;
   margin: 0;
   background-color: whitesmoke;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -55,7 +60,7 @@ code {
 
 .card {
 
-  align-self: center;
+  
 }
 .question {
   border-bottom: solid lightgray 0.1px;
@@ -64,4 +69,9 @@ code {
    background-color:'lightgrey';
   
  
+}
+
+.puntos {
+  color: pink;
+  font-family: Rowdies;
 }

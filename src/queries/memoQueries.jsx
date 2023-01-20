@@ -8,7 +8,7 @@ const GET_STUDENT = gql`
       class
       score
       email
-      username
+      userName
     }
   }
 `;
@@ -27,6 +27,8 @@ const GET_FICHE = gql`
         answerB
         answerC
         answerD
+        memoName
+        memoId
       }
     }
   }
@@ -64,18 +66,21 @@ const GET_MEMO_DATES = gql`
       memoName
       studentName
       calendar {
-        day1
-        day2
-        day3
-        day4
-        day5
-        day6
-        day7
-        day8
-        day9
-        day10
+        recallOne
+        recallTwo
+        recallThree
+        recallFour
+        recallFive
+        recallSix
+        recallSeven
+        recallEight
+        recallNine
+        recallTen
       }
       lastDate
+      nextRecallDay
+      id
+      
     }
   }
 `;

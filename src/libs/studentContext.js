@@ -1,6 +1,7 @@
+import React from 'react';
 import { createContext } from 'react';
 
-export const UserContext = createContext({ user: null, student: null });
+export const UserContext = React.createContext({ user: null, student: null });
 
 
 
