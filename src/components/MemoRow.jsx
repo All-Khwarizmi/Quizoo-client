@@ -14,12 +14,14 @@ import Col from 'react-bootstrap/Col';
 import Puntos from './Puntos';
 
 const MemoRow = ({ fiche, student }) => {
-  const [isMemoDateState, setIsMemoDateState ] =useState(false)
-  const [isloading, setIsloading ] =useState(true)
-  const [isError, setIsError ] =useState(false)
-  const { loading, error, data } = useQuery(GET_MEMO_DATES, {variables: {memoId: fiche.id, studentId: student.id}});
- 
-/*   const [deleteMemo] = useMutation(DELETE_MEMO, {
+  const [isMemoDateState, setIsMemoDateState] = useState(false);
+  const [isloading, setIsloading] = useState(true);
+  const [isError, setIsError] = useState(false);
+  const { loading, error, data } = useQuery(GET_MEMO_DATES, {
+    variables: { memoId: fiche.id, studentId: student[0].id },
+  });
+
+  const [deleteMemo] = useMutation(DELETE_MEMO, {
     variables: { class: fiche.class },
     // First way to update de UI when fiche is deleted but could lead to fetch too much
     //refetchQueries: [{ query: DELETE_MEMO }],
@@ -36,17 +38,24 @@ const MemoRow = ({ fiche, student }) => {
         },
       });
     },
-  }); */
-    if (loading) return <Spinner />;
-    if (error) return <p>Something Went Wrong</p>;
-    const memoDate = data.getMemoDate[0]
-    // console.log(memoDate.nextRecallDay)
-     if (!memoDate) {
-      console.log('No memoDate in MemoRow',
-      data, student.id, fiche.id);  
-     } else {
-      
-      console.log('Got memoDate in MemoRow', memoDate.calendar, student.id, fiche.id);}  
+  });
+  if (loading) return <Spinner />;
+  if (error) {
+    console.log(JSON.stringify(error), student[0].id);
+    return <p>Something Went Wrong</p>;
+  }
+  const memoDate = data.getMemoDate[0];
+  // console.log(memoDate.nextRecallDay)
+  if (!memoDate) {
+    console.log('No memoDate in MemoRow', data, student.id, fiche.id);
+  } else {
+    console.log(
+      'Got memoDate in MemoRow',
+      memoDate.calendar,
+      student.id,
+      fiche.id
+    );
+  }
   return (
     <>
       {!loading && !error && (
@@ -96,22 +105,20 @@ const MemoRow = ({ fiche, student }) => {
               <Card.Text>
                 {memoDate ? (
                   <>
-                    <>{`Last recall ${
-                      daysFromLastRecall(memoDate)
-                    } days ago`}</>
-                    <>
-                      {' '}
-                     
-                      {`Next recall in ${nextRecallDay(memoDate)} days`}
-                    </>
+                    <>{`Last recall ${daysFromLastRecall(
+                      memoDate
+                    )} days ago`}</>
+                    <> {`Next recall in ${nextRecallDay(memoDate)} days`}</>
                   </>
                 ) : null}
               </Card.Text>
               <Card.Link href={`/fiches/:${fiche.id}/1`}>Play Memo</Card.Link>
             </Card.Body>
-            {/* <button onClick={deleteMemo} className='btn btn-danger btn-sm'>
-          <FaTrash />
-        </button> */}
+            {student.class == 'admin' ? (
+              <button onClick={deleteMemo} className='btn btn-danger btn-sm'>
+                <FaTrash />
+              </button>
+            ) : null}
           </Card>
         </Col>
       )}

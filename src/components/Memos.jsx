@@ -12,19 +12,24 @@ import Col from 'react-bootstrap/Col';
 
 const Memos = (/* {student} */) => {
    const { user, getStudent } = React.useContext(UserContext);
- 
+ console.log(getStudent[0].class)
   const { loading, error, data } = useQuery(GET_FICHES_CLASS, {
-    variables: {class: getStudent.class}
+    variables: { class: getStudent[0].class },
   });
  
   if (loading) return <Spinner />;
   if (error) return <p>Something Went Wrong</p>;
 
  const { getFichesClass } = data;
-// console.log(getFichesClass);
+ if (!getFichesClass.length){
+   console.log(getStudent);
+   return <h1>No QuizoO available for now</h1>;
+
+  }
   
   return (
     <>
+    
       {!loading && !error && (
         <Container fluid>
           <Row className='row gm-1'>

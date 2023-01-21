@@ -1,13 +1,126 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
+import Form from 'react-bootstrap/Form';
+import React from 'react';
+import { ADD_MEMO, ADD_QUESTION } from '../mutations/memoMutations';
 import { FaUser } from 'react-icons/fa';
 import { useMutation } from '@apollo/client';
-
+import Button from 'react-bootstrap/Button';
+import Modal from 'react-bootstrap/Modal';
+import QuestionInput from './QuestionInput';
 
 const AddMemoModal = () => {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [phone, setPhone] = useState('');
-/* 
+  const [show, setShow] = useState(false);
+  const [formValues, setFormValues] = useState([]);
+  const [toggle, setToggle] = useState(false);
+ const [addMemo] = useMutation(ADD_MEMO)
+ const [addQuestion] = useMutation(ADD_QUESTION)
+  const inputRef = useRef();
+
+  const addMemoQuestion = () => {
+
+  }
+
+  const handleChange = (e, index) => {
+    const values = [...formValues];
+    values[index].question = e.target.value;
+    setFormValues(values);
+  };
+  const handleChangeMemoName = (e, index) => {
+    const values = [...formValues];
+    values[index].memoName = e.target.value;
+    setFormValues(values);
+  };
+  const handleChangeMemoClass = (e, index) => {
+    const values = [...formValues];
+    values[index].memoClass = e.target.value;
+    setFormValues(values);
+  };
+  console.log(formValues);
+  const handleChangeResponse = (e, index) => {
+    const values = [...formValues];
+    values[index].correctAnswer = e.target.value;
+    setFormValues(values);
+    
+  };
+  const handleChangeResponseA = (e, index) => {
+    const values = [...formValues];
+    values[index].answerA = e.target.value;
+    setFormValues(values);
+    
+  };
+  const handleChangeResponseB = (e, index) => {
+    const values = [...formValues];
+    values[index].answerB = e.target.value;
+    setFormValues(values);
+    
+  };
+  const handleChangeResponseC = (e, index) => {
+    const values = [...formValues];
+    values[index].answerC = e.target.value;
+    setFormValues(values);
+    
+  };
+  const handleChangeResponseD = (e, index) => {
+    const values = [...formValues];
+    values[index].answerD = e.target.value;
+    setFormValues(values);
+    
+  };
+
+  const handleAddField = (e) => {
+    e.preventDefault();
+    const values = [...formValues];
+    values.push({
+      memoName: "",
+      memoClass: "user",
+      question: "",
+      correctAnswer: "",
+      answerA: "",
+      answerB: "",
+      answerC: "",
+      answerD: "",
+
+    });
+    setFormValues(values);
+    setToggle(false);
+  };
+
+  const handleDeleteField = (e, index) => {
+    const values = [...formValues];
+    values.splice(index, 1);
+    setFormValues(values);
+  };
+
+  const addBtnClick = (e) => {
+    e.preventDefault();
+    setToggle(true);
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+     const formData =  formValues.map((val) => {
+        return { 
+          "memoName": val.memoName,
+          "class": val.memoClass,
+          "question": val.question,
+          "correctAnswer": val.correctAnswer,
+          "answerA": val.answerA,
+          "answerB": val.answerB,
+          "answerC": val.answerC,
+          "answerD": val.answerD,
+          
+         };
+      })
+
+    ;
+  };
+
+  const handleClose = () => {
+     setShow(false);
+  };
+  const handleShow = () => setShow(true);
+
+  /* 
   const [addClient] = useMutation(null, {
     variables: { name, email, phone },
     update(cache, { data: { addClient } }) {
@@ -36,29 +149,50 @@ const AddMemoModal = () => {
 
   return (
     <>
-      
-<button type="button" className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-  Add Memo
-</button>
+      <Button variant='primary' onClick={handleShow}>
+        Launch demo modal
+      </Button>
 
-
-<div className="modal fade" id="exampleModal"  aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div className="modal-dialog">
-    <div className="modal-content">
-      <div className="modal-header">
-        <h1 className="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
-        <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div className="modal-body">
-        ...
-      </div>
-      <div className="modal-footer">
-        <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" className="btn btn-primary">Save changes</button>
-      </div>
-    </div>
-  </div>
-</div>
+      <Modal show={show} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Add Memo</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <form onSubmit={handleSubmit}>
+            
+            <div className='mb-3'>
+              {formValues.map((obj, index) => (
+                <QuestionInput
+                  key={index}
+                  objValue={obj}
+                  onChange={handleChange}
+                  index={index}
+                  deleteField={handleDeleteField}
+                  handleChangeResponse={handleChangeResponse}
+                  handleChangeResponseA={handleChangeResponseA}
+                  handleChangeResponseB={handleChangeResponseB}
+                  handleChangeResponseC={handleChangeResponseC}
+                  handleChangeResponseD={handleChangeResponseD}
+                  handleChangeMemoName={handleChangeMemoName}
+                  handleChangeMemoClass={handleChangeMemoClass}
+                />
+              ))}
+              <div className='dialog-box'>
+                <button className='btn btn-primary' onClick={handleAddField}>
+                  Add
+                </button>
+              </div>
+              <button
+                variant='primary'
+                type='submit'
+                className='btn btn-primary'
+              >
+                Add Memo
+              </button>
+            </div>
+          </form>
+        </Modal.Body>
+      </Modal>
     </>
   );
 };

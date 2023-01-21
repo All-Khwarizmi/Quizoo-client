@@ -5,9 +5,6 @@ import App from './App';
 import { BrowserRouter } from 'react-router-dom';
 import { Auth0Provider } from '@auth0/auth0-react';
 import { ApolloProvider, ApolloClient, InMemoryCache } from '@apollo/client';
-import { useAuth0, withAuthenticationRequired } from '@auth0/auth0-react';
-import { useContext } from 'react';
-import { UserContext } from './libs/studentContext';
 const client = new ApolloClient({
   uri: 'http://localhost:4000/graphql',
   cache: new InMemoryCache(),

@@ -12,7 +12,7 @@ import Spinner from './Spinner';
 
 import Card from './Card';
 
-const FicheCard = () => {
+const FicheCard = (user) => {
   let { id, number } = useParams();
   id = id.split('').splice(1).join('');
   const { loading, error, data } = useQuery(GET_FICHE, {
@@ -44,6 +44,7 @@ const FicheCard = () => {
   newQuestion = newQuestion[0];
   return (
     <Card
+    user={user}
       number={number}
       numberOfQuestions={numberOfQuestions}
       id={id}

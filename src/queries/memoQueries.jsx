@@ -1,8 +1,8 @@
 import { gql } from '@apollo/client';
 
 const GET_STUDENT = gql`
-  query getStudent($id: ID!) {
-    getStudent(id: $id) {
+  query getStudent($email: String!) {
+    getStudent(email: $email) {
       id
       name
       class

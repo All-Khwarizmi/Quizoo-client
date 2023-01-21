@@ -5,17 +5,9 @@ import Modal from 'react-bootstrap/Modal';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useMutation, useQuery } from '@apollo/client';
-import {
-  UPDATE_STUDENT,
-  ADD_MEMO_DATE,
-  UPDATE_MEMO_DATE,
-} from '../mutations/memoMutations';
-import { UserContext } from '../libs/studentContext';
 import Spinner from './Spinner';
-import { GET_MEMO_DATES } from '../queries/memoQueries';
 
-const CardModal = ({ numberOfQuestions, newQuestion, id, number }) => {
-  const { getStudent } = React.useContext(UserContext);
+const DemoQuestionModal = ({ numberOfQuestions, newQuestion, id, number }) => {
   const [show, setShow] = useState(true);
   const [succes, setSucess] = useState(false);
   const [correctAnswer] = useState(newQuestion.correctAnswer);
@@ -27,36 +19,17 @@ const CardModal = ({ numberOfQuestions, newQuestion, id, number }) => {
   const [answerB] = useState(newQuestion.answerB);
   const [answerC] = useState(newQuestion.answerC);
   const [answerD] = useState(newQuestion.answerD);
-  let link = `/fiches/:${id}/${parseInt(number) + 1}`;
+  let link = `/demo/${parseInt(number) + 1}`;
   const [lastQuestionRedirect, setLastQuestionRedirect] = useState({ link });
   useEffect(() => {
     if (parseInt(number) === numberOfQuestions) {
-      const link = '/fiches';
+      const link = '/';
       setLastQuestionRedirect({ link });
     } else {
-      let link = `/fiches/:${id}/${parseInt(number) + 1}`;
+      let link = `/demo/${parseInt(number) + 1}`;
       setLastQuestionRedirect({ link });
     }
   }, [number, id, numberOfQuestions]);
-  const [updateMemoDate] = useMutation(UPDATE_MEMO_DATE);
-  const [updateStudent] = useMutation(UPDATE_STUDENT);
-  const [addMemoDate] = useMutation(ADD_MEMO_DATE);
-  
-  const { loading, error, data } = useQuery(GET_MEMO_DATES, {
-    variables: { memoId: newQuestion.memoId, studentId: getStudent[0].id },
-  });
-
-  if (loading) return <Spinner />;
-  if (error)  {
-    console.log(JSON.stringify(error))
-    return <p>Something Went Wrong</p>;
-  };
-
-  const calendar = createCalendar();
- 
-  const memoDate = data.getMemoDate[0];
-   const nextRecallDay = getNextRecallDay("recallTwo");
-
 
   const clickA = () => {
     if (answerA === correctAnswer) {
@@ -66,8 +39,6 @@ const CardModal = ({ numberOfQuestions, newQuestion, id, number }) => {
       setClassB('btn btn-danger');
       setClassC('btn btn-danger');
       setClassD('btn btn-danger');
-
-      // Once cliked disabled it somehow
     } else {
       showToastMessageFail();
       setClassA('btn btn-danger');
@@ -115,8 +86,8 @@ const CardModal = ({ numberOfQuestions, newQuestion, id, number }) => {
       setClassD('btn btn-danger');
     }
   };
-  // console.log(newQuestion);
 
+  const calendar = createCalendar();
   const handleClose = () => {
     setShow(false);
   };
@@ -127,59 +98,7 @@ const CardModal = ({ numberOfQuestions, newQuestion, id, number }) => {
     setClassB('btn btn-primary');
     setClassC('btn btn-primary');
     setClassD('btn btn-primary');
-
-    if (parseInt(number) === numberOfQuestions) {
-      /* ====================== Memo Validation Button Component =========================== */
-
-      // When its the last question is true, clicking the save Memo button triggers this...
-      // Add state for icons and call mutations depending on it
-      // Add state for score to be updated on each question and then update student score
-
-      const isDate = isMemoDate(memoDate);
-      console.log(isDate);
-      // Component logic for creating or updating memodate
-      if (memoDate) {
-        const nextRecallDay = getNextRecallDay(memoDate.nextRecallDay);
-        updateMemoDate({
-          variables: {
-            lastDate: Date.now(),
-            id: memoDate.id,
-            studentId: getStudent.id,
-            nextRecallDay,
-          },
-        });
-        if (isPoints(memoDate)) {
-          updateStudent({
-            variables: { id: getStudent.id, score: getStudent.score + 50 },
-          });
-        }
-      } else {
-        const calendar = createCalendar();
-
-        try {
-          addMemoDate({
-            variables: {
-              lastDate: Date.now(), // Dont think we need this one. maybe to know when its the last time!
-              memoId: id,
-              studentId: getStudent.id,
-              memoName: newQuestion.memoName,
-              studentName: getStudent.name,
-              nextRecallDay: 'recallOne',
-              calendar: calendar,
-            },
-          });
-          updateStudent({
-            variables: { id: getStudent.id, score: getStudent.score + 50 },
-          });
-          
-        } catch (error) {
-          console.log(JSON.stringify(error));
-        }
-      }
-      
-    }
   };
-
   const showToastMessageSucess = () => {
     toast('🦄 Wow so easy!', {
       position: 'top-center',
@@ -298,7 +217,7 @@ const CardModal = ({ numberOfQuestions, newQuestion, id, number }) => {
           </div>
         </Modal.Body>
         <Modal.Footer>
-          <Link to={`/fiches/`}>
+          <Link to={`/`}>
             <Button variant='secondary'>Stop</Button>
           </Link>
           {succes ? (
@@ -333,66 +252,7 @@ const createCalendar = () => {
     recallTen: Date.now() + 5 * monthInSeconds,
   };
 
-  return  calendar ;
-};
-const isMemoDate = (memoDate) => {
-  if (memoDate) {
-    const lastDate = memoDate.lastDate;
-    const calendar = memoDate.calendar;
-    const nextRecallDay = memoDate.nextRecallDay;
-
-    return { lastDate, calendar, nextRecallDay };
-  } else {
-    console.log('No memoDate in CardModal');
-
-    return false;
-  }
+  return calendar;
 };
 
-// Function that takes the variable nextRecallDay and returns the after next
-const getNextRecallDay = (nextRecallDay) => {
-  if (nextRecallDay === 'recallTen') {
-    return 'recallTen';
-  } else {
-    const recallDays = [
-      'recallOne',
-      'recallTwo',
-      'recallThree',
-      'recallFour',
-      'recallSix',
-      'recallSeven',
-      'recallEight',
-      'recallNine',
-      'recallTen',
-    ];
-    const indexOfRecallDay = recallDays.indexOf(nextRecallDay);
-
-    const nextRecallD = recallDays[indexOfRecallDay + 1];
-
-    return nextRecallD;
-  }
-};
-const isPoints = (memoDate) => {
-  if (isMemoTime(memoDate)) {
-    return true;
-  } else {
-    return false;
-  }
-};
-const isMemoTime = (memoDate) => {
-  // Need to determine if its time to take this particular memo or not
-  // To do that we calculate  (calendar.nextRecallDay - date.now())
-  // If the result its :
-  //    positive number && LESS than 86400 (seconds in a day) return true
-  //    positive number && MORE than 86400 (seconds in a day) return false
-  //    negative number return true (memoTime has passed)
-  //
-  const result = memoDate.nextRecallDay - Date.now();
-  let isTime;
-  if (result <= 0 || (result > 0 && result <= 86400)) {
-    return (isTime = true);
-  } else {
-    return (isTime = false);
-  }
-};
-export default CardModal;
+export default DemoQuestionModal;

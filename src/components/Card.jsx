@@ -7,15 +7,21 @@ import Spinner from './Spinner';
 import { UserContext } from '../libs/studentContext';
 
 // Can delete this component
-const Card = ({ numberOfQuestions, newQuestion, id, number }) => {
+const Card = ({ numberOfQuestions, newQuestion, id, number, user }) => {
+   console.log(user.user.email)
     const { loading, error, data } = useQuery(GET_STUDENT, {
-      variables: { id: '63c2de4c639da3634af19395' },
+      variables: { email: user.user.email },
     });
    
     if (loading) return <Spinner />;
-    if (error) return console.log(JSON.stringify(error));
-    {
-      /* <p>Something Went Wrong</p>; */
+    if (error) {
+      console.log(JSON.stringify(error));
+      return (
+        <div className='container'>
+          {' '}
+          <p>Something Went Wrong</p>
+        </div>
+      );
     }
     const { getStudent } = data;
   return (

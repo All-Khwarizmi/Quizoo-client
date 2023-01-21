@@ -1,12 +1,12 @@
 import { gql } from '@apollo/client';
 
 const ADD_MEMO = gql`
-  mutation addMemo($name: String!, $email: String!, $phone: String!) {
-    addMemo(name: $name, email: $email, phone: $phone) {
+  mutation addMemo($name: String!, $class: String!, ) {
+    addMemo(name: $name, class: $class ) {
       id
       name
-      email
-      phone
+      class
+      
     }
   }
 `;
@@ -54,6 +54,26 @@ const ADD_QUESTION = gql`
     }
   }
 `;
+const ADD_STUDENT = gql`
+mutation addStudent(
+  $name: String!
+  $userName: String!
+  $email: String!
+) {
+  addStudent(
+    name: $name
+    userName: $userName
+    email: $email
+  ) {
+    id
+    name
+    userName
+    email
+    class
+    score
+  }
+}
+`
 const UPDATE_STUDENT = gql`
   mutation updateScoreStudent($id: ID!, $score: Int!) {
     updateScoreStudent(id: $id, score: $score) {
@@ -144,4 +164,4 @@ const addQuestionVariables = {
   answerD: 'Significa un alimento',
 };
 
-export { DELETE_MEMO, ADD_MEMO, UPDATE_STUDENT, ADD_QUESTION, ADD_MEMO_DATE, UPDATE_MEMO_DATE };
+export { DELETE_MEMO, ADD_MEMO, ADD_STUDENT,UPDATE_STUDENT, ADD_QUESTION, ADD_MEMO_DATE, UPDATE_MEMO_DATE };
