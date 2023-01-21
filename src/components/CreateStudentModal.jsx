@@ -42,7 +42,10 @@ const CreateStudentModal = ({ user }) => {
         </Modal.Header>
         <Modal.Body>
           {' '}
-          Close this window to get the upmost lastest QuizoO content and 50 MemoPoints
+          <strong>
+            Close this window to get the upmost lastest QuizoO content and 50 MemoPoints
+          </strong>
+          
         </Modal.Body>
         <Modal.Footer>
           <Link to={'/fiches'}>

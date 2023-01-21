@@ -6,30 +6,52 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useMutation, useQuery } from '@apollo/client';
 import Spinner from './Spinner';
+import { showToastMessageFail, showToastMessageSucess } from '../libs/Toasts';
+import DemoSuccessModal from './DemoSuccessModal';
 
 const DemoQuestionModal = ({ numberOfQuestions, newQuestion, id, number }) => {
   const [show, setShow] = useState(true);
   const [succes, setSucess] = useState(false);
-  const [correctAnswer] = useState(newQuestion.correctAnswer);
-  const [answerA] = useState(newQuestion.answerA);
+  const [correctAnswer, setCorrectAnswer] = useState(newQuestion.correctAnswer);
+  const [answerA, setAnswerA] = useState(newQuestion.answerA);
   const [classA, setClassA] = useState('btn btn-primary');
   const [classB, setClassB] = useState('btn btn-primary');
   const [classC, setClassC] = useState('btn btn-primary');
   const [classD, setClassD] = useState('btn btn-primary');
-  const [answerB] = useState(newQuestion.answerB);
-  const [answerC] = useState(newQuestion.answerC);
-  const [answerD] = useState(newQuestion.answerD);
+  const [answerB, setAnswerB] = useState(newQuestion.answerB);
+  const [answerC, setAnswerC] = useState(newQuestion.answerC);
+  const [answerD, setAnswerD] = useState(newQuestion.answerD);
   let link = `/demo/${parseInt(number) + 1}`;
   const [lastQuestionRedirect, setLastQuestionRedirect] = useState({ link });
+
   useEffect(() => {
+    setCorrectAnswer(newQuestion.correctAnswer);
+    setAnswerA(newQuestion.answerA);
+    setAnswerB(newQuestion.answerB);
+    setAnswerC(newQuestion.answerC);
+    setAnswerD(newQuestion.answerD);
     if (parseInt(number) === numberOfQuestions) {
-      const link = '/';
+      const link = `/demo/succes`;
       setLastQuestionRedirect({ link });
+ 
     } else {
       let link = `/demo/${parseInt(number) + 1}`;
       setLastQuestionRedirect({ link });
     }
-  }, [number, id, numberOfQuestions]);
+  }, [number]);
+  console.log(
+    'Corrrect',
+    correctAnswer,
+    'A',
+    answerA,
+    'B',
+    answerB,
+    'c',
+    answerC,
+    'D',
+    answerD
+  );
+
 
   const clickA = () => {
     if (answerA === correctAnswer) {
@@ -87,9 +109,8 @@ const DemoQuestionModal = ({ numberOfQuestions, newQuestion, id, number }) => {
     }
   };
 
-  const calendar = createCalendar();
   const handleClose = () => {
-    setShow(false);
+    setShow(true);
   };
   const handleShow = () => {
     setShow(true);
@@ -98,31 +119,9 @@ const DemoQuestionModal = ({ numberOfQuestions, newQuestion, id, number }) => {
     setClassB('btn btn-primary');
     setClassC('btn btn-primary');
     setClassD('btn btn-primary');
+
   };
-  const showToastMessageSucess = () => {
-    toast('🦄 Wow so easy!', {
-      position: 'top-center',
-      autoClose: 5000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: 'light',
-    });
-  };
-  const showToastMessageFail = () => {
-    toast.warn('🥵 Tray again!', {
-      position: 'top-center',
-      autoClose: 5000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: 'light',
-    });
-  };
+
   return (
     <>
       <ToastContainer
@@ -148,7 +147,7 @@ const DemoQuestionModal = ({ numberOfQuestions, newQuestion, id, number }) => {
               <div className='col'>
                 <div className='card'>
                   <div style={{ backgroundColor: 'lightgrey' }}>
-                    <p className='question'> {newQuestion.question} </p>
+                    <p className='question p-3'> {newQuestion.question} </p>
                   </div>
                   <div className='card-body'>
                     <h5 className='card-title'>{}</h5>
@@ -233,26 +232,5 @@ const DemoQuestionModal = ({ numberOfQuestions, newQuestion, id, number }) => {
   );
 };
 
-const createCalendar = () => {
-  // How many seconds in a day
-
-  const dayInSeconds = 60 * 60 * 24;
-  const weekInSeconds = 60 * 60 * 24 * 7;
-  const monthInSeconds = 60 * 60 * 24 * (365 / 12);
-  const calendar = {
-    recallOne: Date.now() + 3 * dayInSeconds,
-    recallTwo: Date.now() + weekInSeconds,
-    recallThree: Date.now() + 2 * weekInSeconds,
-    recallFour: Date.now() + 3 * weekInSeconds,
-    recallFive: Date.now() + 3 * weekInSeconds, // Need to be modified
-    recallSix: Date.now() + monthInSeconds,
-    recallSeven: Date.now() + (monthInSeconds + 2 * weekInSeconds),
-    recallEight: Date.now() + 2 * monthInSeconds,
-    recallNine: Date.now() + 3 * monthInSeconds,
-    recallTen: Date.now() + 5 * monthInSeconds,
-  };
-
-  return calendar;
-};
 
 export default DemoQuestionModal;

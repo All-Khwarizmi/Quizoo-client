@@ -6,10 +6,11 @@ import { BrowserRouter } from 'react-router-dom';
 import { Auth0Provider } from '@auth0/auth0-react';
 import { ApolloProvider, ApolloClient, InMemoryCache } from '@apollo/client';
 const client = new ApolloClient({
-  uri: 'https://graphsqlapi.onrender.com/graphql',
+  uri: 'https://express-graphql-quiz-api-production.up.railway.app/graphql',
   cache: new InMemoryCache(),
 });
-
+// "https://express-graphql-quiz-api-production.up.railway.app/graphql"
+// "https://graphsqlapi.onrender.com/graphql"
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
 root.render(

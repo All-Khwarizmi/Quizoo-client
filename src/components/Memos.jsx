@@ -31,13 +31,13 @@ const Memos = (/* {student} */) => {
     <>
     
       {!loading && !error && (
-        <Container fluid>
+    
           <Row className='row gm-1'>
             {getFichesClass.map((fiche) => (
               <MemoRow key={fiche.id} student={getStudent} fiche={fiche} />
             ))}
           </Row>
-        </Container>
+       
       )}
     </>
   );

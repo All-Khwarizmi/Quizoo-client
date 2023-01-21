@@ -1,8 +1,8 @@
 import React from 'react';
-import {Link} from "react-router-dom"
+import { Link } from 'react-router-dom';
 import { FaTrash } from 'react-icons/fa';
-import { DELETE_MEMO,  } from '../mutations/memoMutations';
-import { GET_MEMO_DATES} from '../queries/memoQueries'
+import { DELETE_MEMO } from '../mutations/memoMutations';
+import { GET_MEMO_DATES } from '../queries/memoQueries';
 import { useEffect, useState } from 'react';
 import Card from 'react-bootstrap/Card';
 import { useMutation, useQuery } from '@apollo/client';
@@ -12,6 +12,7 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Puntos from './Puntos';
+import New from './New';
 
 const MemoRow = ({ fiche, student }) => {
   const [isMemoDateState, setIsMemoDateState] = useState(false);
@@ -76,32 +77,40 @@ const MemoRow = ({ fiche, student }) => {
                       {fiche.name}
                     </Card.Title>
                   </Col>
-                  {!memoDate ? (
-                    <Col>
-                      <MdOutlineFiberNew
-                        style={{
-                          fontSize: '3rem',
-                          color: 'pink',
-                          justifySelf: 'right',
-                        }}
-                      />
-                    </Col>
-                  ) : null}
-                  {!memoDate ? (
-                    <Col>
+                </Row>
+              </Container>
+              <Container>
+                <Row className='row gx-3'>
+                  <Col>{!memoDate ? <New /> : null} </Col>
+                </Row>
+              </Container>
+              <Container>
+                <Row className='row gx-3'>
+                  <Col>
+                    {!memoDate ? (
                       <Puntos />
-                    </Col>
-                  ) : isPoints(memoDate) ? (
-                    <Col>
+                    ) : isPoints(memoDate) ? (
                       <Puntos />
-                    </Col>
-                  ) : null}
+                    ) : null}
+                  </Col>
+                </Row>
+              </Container>
+            
+              <Container>
+                <Row className='row gx-3'>
+                  <Col></Col>
+                </Row>
+              </Container>
+              <Container>
+                <Row className='row gx-3'>
+                  <Col>
+                    <Link to={`/fiches/:${fiche.id}/1`}>
+                      <button className='btn btn-secondary'>Play Memo</button>
+                    </Link>
+                  </Col>
                 </Row>
               </Container>
 
-              <Card.Subtitle className='mb-2 text-muted'>
-                {fiche.class}
-              </Card.Subtitle>
               <Card.Text>
                 {memoDate ? (
                   <>
@@ -112,7 +121,7 @@ const MemoRow = ({ fiche, student }) => {
                   </>
                 ) : null}
               </Card.Text>
-              <Card.Link href={`/fiches/:${fiche.id}/1`}>Play Memo</Card.Link>
+              
             </Card.Body>
             {student.class == 'admin' ? (
               <button onClick={deleteMemo} className='btn btn-danger btn-sm'>
@@ -163,23 +172,23 @@ const isMemoTime = (memoDate) => {
     return (isTime = false);
   }
 };
-const daysFromLastRecall = (memoDate)=> {
- const time = Math.round((Date.now() - memoDate.lastDate) / 60 / 60 / 24)
+const daysFromLastRecall = (memoDate) => {
+  const time = Math.round((Date.now() - memoDate.lastDate) / 60 / 60 / 24)
     .toString()
     .split('')[0];
-    return time
-}
+  return time;
+};
 
 // TODO : make memo's from client with calendar
 const nextRecallDay = (memoDate) => {
   const nextRecallDay = memoDate.nextRecallDay;
   const value = memoDate.calendar[nextRecallDay];
-  
+
   const time = Math.round((value - Date.now()) / 60 / 60 / 24)
     .toString()
     .split('')[0];
-    console.log(time, memoDate.calendar[nextRecallDay]);
-  return time
-}
+  console.log(time, memoDate.calendar[nextRecallDay]);
+  return time;
+};
 
 export default MemoRow;

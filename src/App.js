@@ -7,6 +7,7 @@ import Dashboard from './pages/Dashboard';
 import Public from './pages/Public';
 import MemoPage from './pages/MemoPage';
 import DemoPage from './pages/DemoPage';
+import DemoSuccessModal from './components/DemoSuccessModal';
 
 function App() {
   return (
@@ -19,6 +20,8 @@ function App() {
         <Route path='/fiches/:id' element={<Navigate to='/fiches/:id/1' />} />
         <Route path='/fiches/:id/:number' element={<MemoPage />} />
         <Route path='/demo/:number' element={<DemoPage />} />
+        <Route path='/demo/succes' element={<DemoSuccessModal />} />
+
       </Routes>
     </>
   );

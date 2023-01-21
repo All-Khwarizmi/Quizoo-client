@@ -1,5 +1,6 @@
 import React from 'react';
 import Nav from 'react-bootstrap/Nav';
+import { Link } from 'react-router-dom';
 import { BsPatchQuestion } from 'react-icons/bs';
 import LoginButton from '../auth/LoginButton';
 import LogoutButton from '../auth/LogoutButton';
@@ -10,6 +11,7 @@ const Header = () => {
   return (
     <Nav justify variant='tabs' activeKey='/home'>
       <Nav.Item>
+      
         <Nav.Link href='/fiches'>QuizoO</Nav.Link>
       </Nav.Item>
 

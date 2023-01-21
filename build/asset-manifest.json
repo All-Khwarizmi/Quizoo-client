@@ -1,10 +1,10 @@
 {
   "files": {
-    "main.css": "/static/css/main.c0f6fdee.css",
-    "main.js": "/static/js/main.b49a066d.js",
-    "index.html": "/index.html",
-    "main.c0f6fdee.css.map": "/static/css/main.c0f6fdee.css.map",
-    "main.b49a066d.js.map": "/static/js/main.b49a066d.js.map"
+    "main.css": "/Quizoo-client/static/css/main.c0f6fdee.css",
+    "main.js": "/Quizoo-client/static/js/main.b49a066d.js",
+    "index.html": "/Quizoo-client/index.html",
+    "main.c0f6fdee.css.map": "/Quizoo-client/static/css/main.c0f6fdee.css.map",
+    "main.b49a066d.js.map": "/Quizoo-client/static/js/main.b49a066d.js.map"
   },
   "entrypoints": [
     "static/css/main.c0f6fdee.css",

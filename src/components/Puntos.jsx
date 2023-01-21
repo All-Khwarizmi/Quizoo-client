@@ -2,7 +2,7 @@ import React from 'react'
 
 const Puntos = () => {
   return (
-    <i className='puntos'>PUNTOS</i>
+    <i className='puntos'>30 PUNTOS</i>
   )
 }
 

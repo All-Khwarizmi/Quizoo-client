@@ -87,11 +87,8 @@ const PublicComponent = () => {
       />
       <ArticleModal />
       <MarkdownComponent formValue={formValue} />
-      <button onClick={showToastMessageSucess} style={{ marginBottom: '2rem' }} className='btn btn-secondary'>
-        Pop Quiz
-      </button>
       <Link to={`/demo/1`}>
-        <button style={{ marginBottom: '2rem' }} className='btn btn-primary'>
+        <button style={{ marginBottom: '2rem' }} className='btn btn-secondary'>
           Pop Quiz
         </button>
       </Link>

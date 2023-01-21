@@ -8,6 +8,9 @@ import {
 } from '../queries/memoQueries';
 import Spinner from '../components/Spinner';
 import { useAuth0, withAuthenticationRequired } from '@auth0/auth0-react';
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 import { useContext } from 'react';
 import { UserContext } from '../libs/studentContext';
 const Home = () => {
@@ -25,22 +28,34 @@ if (isLoading) {
     return <p>Something Went Wrong</p>;
   }
   const {getStudent} = data
-  console.log( getStudent[0].class)
+   //console.log( getStudent[0].class)
    
   return (
     <>
-      <div className='container'>
-        <div className='row'>
-          <h3 className='col'>Welcome {getStudent[0].userName}</h3>
-          <h3 className='col'>
-            MemoScore: <strong>{getStudent[0].score}</strong>{' '}
-          </h3>
-        </div>
+      <Container className='container-memo'>
+        <Row>
+          <Col className='p-2 color-secondary'>
+            {' '}
+            <h4>
+              
+                Welcome {getStudent[0].userName || getStudent[0].name}
+             
+            </h4>
+          </Col>
+          <Col className='p-2 color-secondary'>
+            <h3>
+              {' '}
+             {getStudent[0].score} Puntos {' '}
+            </h3>
+          </Col>
+        </Row>
+      </Container>
+      <Container className='container-memo'>
         {getStudent[0].class == 'admin' ? <AddMemoModal /> : null}
         <UserContext.Provider value={{ user, getStudent }}>
           <Memos student={getStudent} />
         </UserContext.Provider>
-      </div>
+      </Container>
     </>
   );
 };

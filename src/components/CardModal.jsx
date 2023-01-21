@@ -18,18 +18,22 @@ const CardModal = ({ numberOfQuestions, newQuestion, id, number }) => {
   const { getStudent } = React.useContext(UserContext);
   const [show, setShow] = useState(true);
   const [succes, setSucess] = useState(false);
-  const [correctAnswer] = useState(newQuestion.correctAnswer);
-  const [answerA] = useState(newQuestion.answerA);
+  const [correctAnswer, setCorrectAnswer] = useState(newQuestion.correctAnswer);
+  const [answerA, setAnswerA] = useState(newQuestion.answerA);
   const [classA, setClassA] = useState('btn btn-primary');
   const [classB, setClassB] = useState('btn btn-primary');
   const [classC, setClassC] = useState('btn btn-primary');
   const [classD, setClassD] = useState('btn btn-primary');
-  const [answerB] = useState(newQuestion.answerB);
-  const [answerC] = useState(newQuestion.answerC);
-  const [answerD] = useState(newQuestion.answerD);
+  const [answerB, setAnswerB] = useState(newQuestion.answerB);
+  const [answerC, setAnswerC] = useState(newQuestion.answerC);
+  const [answerD, setAnswerD] = useState(newQuestion.answerD);
   let link = `/fiches/:${id}/${parseInt(number) + 1}`;
   const [lastQuestionRedirect, setLastQuestionRedirect] = useState({ link });
   useEffect(() => {
+    setAnswerA(newQuestion.answerA);
+    setAnswerB(newQuestion.answerB);
+    setAnswerC(newQuestion.answerC);
+    setAnswerD(newQuestion.answerD); 
     if (parseInt(number) === numberOfQuestions) {
       const link = '/fiches';
       setLastQuestionRedirect({ link });
@@ -224,12 +228,12 @@ const CardModal = ({ numberOfQuestions, newQuestion, id, number }) => {
           <Modal.Title>Question {number} </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <div className='container text-center'>
+          <div className='container text-center '>
             <div className='row'>
               <div className='col'>
                 <div className='card'>
                   <div style={{ backgroundColor: 'lightgrey' }}>
-                    <p className='question'> {newQuestion.question} </p>
+                    <p className='question p-3'> {newQuestion.question} </p>
                   </div>
                   <div className='card-body'>
                     <h5 className='card-title'>{}</h5>

@@ -37,6 +37,7 @@ code {
 
 .btn {
   font-size: 15px;
+  font-weight: bold;
 }
 
 .btn-primary,
@@ -72,18 +73,27 @@ code {
 .question {
   border-bottom: solid lightgray 0.1px;
   min-height: 100px;
-  color: 'black';
+ font-size: larger;
+ font-weight: bold;
    background-color:'lightgrey';
   
  
+}
+
+.color-secondary {
+  color: var(--colorTwo);
 }
 
 .puntos {
   color: var(--colorOne);
   font-family: Rowdies;
 }
-
+.container-memo {
+  text-align: center;
+  
+}
 .container {
+ 
 text-justify: distribute-all-lines;
 }
 
@@ -118,8 +128,9 @@ margin: auto auto;
 }
 
 .nav-item, .nav-link {
-color: var(--colorOne);
+color: var(--colorTwo);
 font-weight: bold;
+font-size: larger;
 justify-content: center;
 background-color: var(--colorThree);
 
@@ -213,6 +224,11 @@ textarea, .preview, .preview-title {
   max-width: 600px;
 
   }
+
+  .container-memo {
+  text-align: center;
+  max-width: 600px;
+}
   img {
 margin: auto auto;
 
