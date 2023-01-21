@@ -6,7 +6,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { Auth0Provider } from '@auth0/auth0-react';
 import { ApolloProvider, ApolloClient, InMemoryCache } from '@apollo/client';
 const client = new ApolloClient({
-  uri: 'http://localhost:4000/graphql',
+  uri: 'https://graphsqlapi.onrender.com/graphql',
   cache: new InMemoryCache(),
 });
 
